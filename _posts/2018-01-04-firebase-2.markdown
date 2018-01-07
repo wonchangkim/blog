@@ -25,11 +25,11 @@ author: wonchangkim # Add name author (optional)
    ![Image]({{site.baseurl}}/assets/img/github-step-01.png)
    - Authorization callback URL 에 구글 파이어베이스에서 제공된 url 입력
    - 구글 콘솔에 클라이언트 ID 와 클라이언트 비밀번호 입력
-  [구글파이어베이스-github : https://firebase.google.com/docs/auth/web/github-auth?authuser=0]
+  [구글파이어베이스-github](https://firebase.google.com/docs/auth/web/github-auth?authuser=0)
   
 ## 4. 파이어베이스 데이터베이스 설정하기
 
-  - [보안 규칙 설정하기 : https://firebase.google.com/docs/database/security/user-security?authuser=0]
+  - [보안 규칙 설정하기](https://firebase.google.com/docs/database/security/user-security?authuser=0)
   - 로그인한 유저만 보기, 로그인한 유저 끼리 정보못보기등등 설정가능
   
 
