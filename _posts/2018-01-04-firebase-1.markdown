@@ -3,7 +3,7 @@ layout: post
 title: firebase 
 date:   2017-12-04
 description:  # Add post description (optional)
-img: friebase.jpg
+img: firebase.jpg
 tags: [Blog, Firebase, Development]
 author: wonchangkim # Add name author (optional)
 ---
@@ -24,6 +24,7 @@ author: wonchangkim # Add name author (optional)
   - curl 통신프로그램
 
 > ### 실시간 데이터 서비스
+
 - 객체나 배열을 통째로 저장하는 서비스
 - JSON 트리(큰 JSON 통, 큰 객체)
 - 실시간 업데이트 감지
