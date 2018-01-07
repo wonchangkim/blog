@@ -14,12 +14,12 @@ author: wonchangkim # Add name author (optional)
 ![Image]({{site.baseurl}}/assets/img/firebase-step-01.jpg){:width="600px" height="600px"}
 > 콘솔에 프로젝트 추가 -> 웹 앱에 firebase 추가
 
-  1. 스니펫을 복사하여 project의 script에 붙여 넣기
+## 2. 스니펫을 복사하여 project의 script에 붙여 넣기
 
 ```html
 <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
 ```
-  2. github OAuth 설정
+## 3. github OAuth 설정
 
    - setting -> developer setting -> new OAuth app
    ![Image]({{site.baseurl}}/assets/img/github-step-01.png)
@@ -27,7 +27,7 @@ author: wonchangkim # Add name author (optional)
    - 구글 콘솔에 클라이언트 ID 와 클라이언트 비밀번호 입력
   [구글파이어베이스-github : https://firebase.google.com/docs/auth/web/github-auth?authuser=0]
   
-  3. 파이어베이스 데이터베이스 설정하기
+## 4. 파이어베이스 데이터베이스 설정하기
 
   - [보안 규칙 설정하기 : https://firebase.google.com/docs/database/security/user-security?authuser=0]
   - 로그인한 유저만 보기, 로그인한 유저 끼리 정보못보기등등 설정가능
