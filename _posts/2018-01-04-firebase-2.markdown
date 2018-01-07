@@ -10,4 +10,4 @@ author: wonchangkim # Add name author (optional)
 # firebase
 
 ## 1. firebase 콘솔에서 프로젝트 추가하기
-![Image]({{site.baseurl}}/assets/img/firebase-step-01.jpg){:width="300px" height="300px"}
+![Image]({{site.baseurl}}/assets/img/firebase-step-01.jpg){:width="600px" height="600px"}
