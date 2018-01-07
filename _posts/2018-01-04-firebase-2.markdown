@@ -4,9 +4,11 @@ title: firebase로 todolis 만들기
 date:   2018-01-07
 description:  # Add post description (optional)
 img: firebase.jpg
-tags: [Blog, Firebase, Development]
+tags: [Firebase, Development, todolist]
 author: wonchangkim # Add name author (optional)
 ---
 # firebase
 
+## 1. firebase 콘솔에서 프로젝트 추가하기
+ - 
  
