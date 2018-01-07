@@ -1,0 +1,74 @@
+<header class="main-header">
+  <div class="wrapper">
+    <div class="header-flex">
+      <div class="menu-icon-container">
+        <span class="menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
+      </div>
+      <nav class="main-nav">
+        <span class="menu-icon-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+        <section class="about-header">
+          <div class="author-image-container">
+            <img src="{{site.baseurl}}/assets/img/{% if site.author-pic %}{{site.author-pic}}{% endif %}" alt="{{site.author}}">
+          </div>
+          <p class="subtitle">{{site.about-author}}</p>
+        </section>
+        <section class="about-body">
+          <ul class="contact-list">
+            {% if site.email %}
+            <li class="email">
+              <a href="mailto:{{site.email}}">
+                <i class="fa fa-envelope-o"></i>
+              </a>
+            </li>
+            {% else %}
+            <li class="email">
+              <a href="mailto:example.adam@blog.com">
+                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+              </a>
+            </li>
+            {% endif %} {% if site.website %}
+            <li class="website">
+              <a href="http://{{site.website}}" target="_blank">
+                <i class="fa fa-globe"></i>
+              </a>
+            </li>
+            {% else %}
+            <li class="website">
+              <a href="https://artemsheludko.github.io" target="_blank">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+              </a>
+            </li>
+            {% endif %} {% if site.github %}
+            <li class="github">
+              <a href="http://github.com/{{site.github}}" target="_blank">
+                <i class="fa fa-github"></i>
+              </a>
+            </li>
+            {% else %}
+            <li class="github">
+              <a href="http://github.com/artemsheludko" target="_blank">
+                <i class="fa fa-github" aria-hidden="true"></i>
+              </a>
+            </li>
+            {% endif %}
+        
+          </ul>
+        </section>
+        <ul>
+          <li><a href="{{site.baseurl}}/">Blog</a></li>
+          <li><a href="{{site.baseurl}}/about">About</a></li>
+          <li>
+            <a href="{{site.baseurl}}/design">Design</a>
+          </li>
+          <li>
+            <p class="develop">Development</p>
+          </li>
+        </ul>
+      </nav>
+      <p class="logo"><a href="{{site.baseurl}}/"><img src="{{site.baseurl}}/assets/img/{{site.author-logo}}" alt="{{site.author-logo}}" class="author-logo"></a></p>
+      <div class="search-icon-container">
+        <span class="search-icon"><a><i class="fa fa-search" aria-hidden="true"></i></a></span>
+      </div>
+    </div>
+  </div>
+</header> <!-- End Header -->
