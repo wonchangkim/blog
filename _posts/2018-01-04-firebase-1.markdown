@@ -1,0 +1,136 @@
+---
+layout: post
+title: firebase 
+date:   2017-12-04
+description:  # Add post description (optional)
+img: friebase.jpg
+tags: [Blog, Firebase, Development]
+author: wonchangkim # Add name author (optional)
+---
+# firebase
+[강사님github][https://github.com/fds7/fds-firebase-auth]
+- 백엔드가 필요한 부분을 편하게 쓸수있다.
+
+> ### 인증
+
+- 로그인을 할수있게 하는 서비스(구글,페이스북,전화번호로그인,이메일/비밀번호)
+- 아이디찾기,비밀번호찾기
+- OAuth 자원서버와 인증서버 달라도 상호인증 할 수있게 하는것.
+- Authorization callback URL : 리다이랙트. 깃헙에서 파이어베이스로 보내는것
+- github REST API
+  - api를 쓰면서 인증 절차가 필요하다.
+  - token 내가 누구인지 밝혀주는 도구 (아이디와 비밀번호)
+  - [https://developer.github.com/v3/#authentication] 
+  - curl 통신프로그램
+
+> ### 실시간 데이터 서비스
+- 객체나 배열을 통째로 저장하는 서비스
+- JSON 트리(큰 JSON 통, 큰 객체)
+- 실시간 업데이트 감지
+- 규칙 설정을 토한 데이터 보안 (다이어리서비스: 내 데이터는 나만보기가능- 인증서비스와 연동가능) 
+- 배열은 지원하지 않는다. 객체만 지원
+- 복잡한 쿼리는 지원하지 않는다(firestore 사용.). 단순단 정렬
+- 1번 접속으로 노드를 선택적으로 가져올수 없다.
+- 1번 접속은 비용이 많이 듣다.(시간)
+- 접속횟수를 줄이는것이 중요하다.
+
+```js
+//규칙정하기
+{
+  "rules": {
+    ".read": "auth != null",  //로그인을 하면 읽을수 있다. 로그인안하면 null
+    ".write": "auth != null" 
+         "message":{
+         ".read": "auth != null",  
+         ".write": "auth != null"
+         } 
+  }
+ 
+}
+```
+```js
+//정규화(normalize) : 데이터를 만들어서 관계를 정해주는것.
+"rooms":{
+  "room1":{
+    "title":"안녕하세요"
+  }
+}
+//또다른 큰객체생성
+"messages":{
+  "won-20171112112005":{
+    "roomId":"room1" //관계를 정해준다. entity
+  }
+}
+```
+> - 쓰기
+
+```js
+function writeUserData(userId, name, email, imageUrl) {
+  firebase.database().ref('users/' + userId).set({ //루트노트의 userId위치. set() 위치에 값저장
+    username: name,
+    email: email,
+    profile_picture : imageUrl
+  });
+}
+```
+
+```js
+firebase.database().ref('users/wochangkim').set({address: 'seoul',job:'frontend'})
+//promise 반환
+```
+
+```js
+//이벤트 수신대기
+var starCountRef = firebase.database().ref('posts/' + postId + '/starCount');
+starCountRef.on('value', function(snapshot) { // 데이타 변경될때마다 콜백이 발생. on()메소드.
+  updateStarCount(postElement, snapshot.val());
+});
+//데이터 한번읽기
+var userId = firebase.auth().currentUser.uid;
+return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) { //once()메소드
+  var username = (snapshot.val() && snapshot.val().username) || 'Anonymous'; 
+  // ...
+});
+```
+
+```js
+snapshot = await firebase.database().ref('users/wochangkim').once('value')
+
+snapshot.val();
+//{address: "seoul", job: "frontend"}
+
+//set(); 통째로 노드가 바뀐다. 
+//update({address:"jeju"}); // 일부만 바꾸고싶을때
+
+```
+- 데이터삭제 : remove();
+- push() : 데이터를 넣으면서 식별자 자동생성 메소드(동적으로생성되는 데이터: 할일관리에서 할일 목록.어떤데이터가 예상안되는 여러데이터일때)
+- push() 하고 식별자를 확일할 필요가 있을때.
+
+```js
+ref = await firebase.database().ref('messages').push({
+content:'안녕하세요', roomId:1})
+data = await ref.once('value')
+date.val() //{content: "안녕하세요", roomId: 1}
+ref.path //저장된 위치 보여줌.
+```
+
+```js
+   document.querySelector('.new-todo').addEventListener('keydown', async e => {
+      if (e.key === 'Enter') {
+        //입력 필드에 들어있는 값을 파이어베이스에 전송
+         await firebase.database().ref('todos').push({ //await를 기다렸다가 push되면 및에 e.currentTarget.value = ''; 실행된다.
+           //promise 리턴한다.
+          content: e.currentTarget.value
+        })
+        e.currentTarget.value = '';
+        //입력 필드를 비워주기
+      }
+    })
+```
+
+
+
+
+
+   
