@@ -83,7 +83,8 @@ firebase.database().ref('users/wochangkim').set({address: 'seoul',job:'frontend'
 ```js
 //이벤트 수신대기
 var starCountRef = firebase.database().ref('posts/' + postId + '/starCount');
-starCountRef.on('value', function(snapshot) { // 데이타 변경될때마다 콜백이 발생. on()메소드.
+starCountRef.on('value', function(snapshot) {
+     // 데이타 변경될때마다 콜백이 발생. on()메소드.
   updateStarCount(postElement, snapshot.val());
 });
 //데이터 한번읽기
