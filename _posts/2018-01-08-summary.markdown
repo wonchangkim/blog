@@ -1,0 +1,168 @@
+---
+layout: post
+title: HTTP
+date:   2018-01-08
+description:  # Add post description (optional)
+img: http.jpg
+tags: [http,수업정리]
+author: wonchangkim # Add name author (optional)
+---
+
+# REST API
+
+    ## Postman
+
+    - rest api 를 시험해볼 수 있는도구
+    - 크롬 확장도구
+    - get : https://httpbin.org/get 요청보내면 응답을 보여줌
+    - params : 키 벨류 쌍 입력 
+    - github rest api test
+        - 저장소 이슈목록 가져오기
+       - https://developer.github.com/v3/issues/#list-issues-for-a-repository
+       - https://api.github.com/repos/fds7/fds-handouts/issues
+       - 이런 과정으로 시험 해볼수 있다. 시험내용이 잘동작하면 코드로 옮기면 된다.
+       - parameter : creator (The user that created the issue.)
+       - api 는 함수와 비슷하다.
+
+```js
+function fetchIssuebyUser(username){
+  return fecth('https://api.github.com/repos/fds7/fds-handouts/issues?creator=${username}')
+  }
+```
+
+## http
+
+ - 최근 rest api의 부상과 함께 다른용도로 널리 사용
+    - 모바일앱 - 서버 간 통신
+    - 서버 - 서버 간 통신
+
+- 80번 포트를 기본으로 사용
+- 클라이언트의 요청(request) 와 서버의 응답(response)으로 이루어짐
+- https : HTTP over SSL : http 통신을 그대로 쓰는대 암호화해준 것이다.
+    - 클라이언트와 서버만 알수 있는 암호를 사용하기 때문에 중간에 가로챌수 없다.
+    - 예전에는 개인이 운영하기 어려웠다. 인증서 사서 붙이기. 
+    - 지금은 돈을 안내고 쓸수있다.
+    - 443번 포트를 기본으로 사용(https://naver.com:443)
+- HTTP/2
+    - 구글의 SPDY 프로토콜을 기반으로 2015년에 확정, 새로운 http 표준
+    - 기존의 것은 느리다. 클라이언트 요청이 있어야 응답이 있었다.
+    - 요청이 없어도 응답을 할수 있다, 속도가 빠르다.
+    - 반드시 https를 사용하야한다는 것을 포함
+    - google 확인 (hearder에 소문자를 쓴다.) 비교이미지 캡처
+
+- http 의 구성요소
+    - request : 통신을 시작하려면 요청이 있어야한다.
+    - 그에 따라 클라이언트에 응답.(json등등)
+    - 웹 브라우저의 경우, HTML 문서 형태의 응답이 오면 해당 문서를 분석한후, 문서에 포함된 모든 자원에 다한 요청을 가가가 추가로 보낸다.(이미지,동양상,오디오,css,js)
+    - fastcampus 웹사이트 네트워크 검사
+    - http/2에서는 이부분이 발전되서 속도가 빠르다
+
+    - request methods : 명세에는 8종류가 등록되어있다. get,post 등등
+    - 웹브라우저는 특정 상황에서 특정 메소드로 요청을 보내도록 만저어져 있다.
+    - js를 안쓰면 get,post만 쓸수있다.
+    - Ajax,fecth와 같이 요청을 보내는 코드를 직접 짤수있다.
+    - 자료의 본문을 요청 get
+    - 새로운 자료를 등록 post
+    - put 새로를 통째로 바꾸고싶을때(firebase의 set)
+    - delete 리소스 삭제
+    - patch 리소스의 부분 수정(firebase의 update)
+    - 명세의 내용은 반드시 따르라는 것이라니라 권고사항이다. 다만 postman을 명세를 따라 만들어졌다. 브라우저가 하는 일과 개발자가 하는일의 성질이 갭이 발생할수있다. 
+    -> 되도록 명세를 지켜 개발할것.(메소드의 목적에 따라 사용할것)
+    
+    - 서버가 충족시켜야 하는 메소드의 성질
+        - safe: 요청이 서버의 상태에 영향을 미치지 않아야 한다. 읽기(get)전용
+        - idempotent : 여러 번 같은 요청을 해도 한번 요청한 것과 효과가 같아야한다
+            - 네트워크가 불안정해도 안전하게 요청을 보낼수 있어야한다.
+            - delete 요청을 했는지 응답이 없으면, 클라이언트는 요청이 도달했는지 알수없다.
+            - delete 요청을 확인 못하면 한번더 보내야된다. 만약에 서버가 응답을 받아 이미 지웠다면 , 다시 요청하면 에러 발생한다. idempotent 는 마지막 단계에서도 에러를 내지 말아야 한다.
+        - cacheable : 특정 조건을 만족하면 응답을 클라이언트에 저장해 두었다가 다음 번 요청 때 다시 쓸 수 있음.
+        - 이미지 비교 : put -> idempotent : yes (통째로 바꾸는것이기 때문)
+                     patch -> idempotent : no()
+        - 내 해석 : put 과 delete 는 비슷한 성질
+                  patch 와 post 는 비슷한 성질
+    
+    - URL 구성
+        - universial resource l
+        - scheme : 어떤형태의 자원인가? matilto, javasctipt.
+        - hostname : 자원이 어떤 서버에 위치해있는가? 2번3번4번
+        - port : 앞에 scheme에 따라 다르다.
+        - path : 경로.
+        - 자원을 어떻게 가져올것인가? 
+        - query srting (get parameter) : 
+        - fragment identifier (헤쉬스트링) 
+
+        - 상대경로 : .(같은폴더에있는) 또는 ..(상위폴더) url('../bg.jpg') : 파일의 저장위치와 url 상관 없을 수 있다. 서버가 어떻게 만들어 졌는지 상관잇따.
+        - 주의할점
+            - ASCII 문자 밖에 사용하지 못한다. 한글 안된다.
+            - 이미지참조
+            - %시각한다. 퍼센트인코딩(url인코딩)
+```js
+> encodeURIComponent("한글")
+"%ED%95%9C%EA%B8%80"
+> decodeURIComponent("%ED%95%9C%EA%B8%80")
+"한글"
+```
+- request target
+    - path + query string + fragment id
+    - GET /path/to/resource?foo=bar&spam=hoge#fragid HTTP/1.1
+    - http/1.1 은 text 기반이다.
+    - http/2 01010 압축되어 전송된다.(속도 빠르다.)
+        
+- reponse status
+    - 응단의 성공,실패 여부와 종류를 나타내며, 상태코드 + 상태 메시지 의 형태로 응답에 포함됨
+    - HTTP/1.1 200 OK 
+    - [http status code](https://httpstatuses.com/)
+    - category
+        - 200번데 (성공)
+        - 300번 (추가작업이 필요함)
+        - 400번 (실패 - 클라이언트 책임)
+        - 500번 (실패 - 서버 책임)
+    - 200번 
+        - 200 ok(성공)
+        - 201 created (자료가 성공적으로 생성됨) : post 응답코드
+    - 300번
+        - 301 moved permanently(redirection) : 자료가 완전히 다론곳으로 이동했음
+        - 302 found(redirectipn) : 자료가 일시적으로 다른 곳에 있음
+        - 304 not modified(cache) : 클아잉언트가 이미 가지고 있던 자료가 수정되지 - 두번째 들어갈때 css, 또는 js 변화가 없으므로 
+        - 이미지 참조: 이미지(같고있는것이 먼지 알려줘야된다.: ETag) 바뀐지 물어보고? 그대로써믄되 (304코드)
+
+## 파이어베이스
+
+    - 구글로그인 (깃헙로그인보다 간단하다.)
+    - 파이어베이스는 이메일이 같으면 한계정으로 취급한다. (페이스북,구글,깃헙등등)
+    - firebase 사용자(uid) - 한계정
+    - push(value,oncoplete)  실제값, 콜백
+
+```js
+  Object.keys({a:1, b:2})
+=> [ 'a', 'b' ]
+   Object.values({a:1, b:2})
+=> [ 1, 2 ]
+   Object.entries({a:1, b:2})
+=> [ [ 'a', 1 ], [ 'b', 2 ] ]
+   
+entries = Object.entries({a:1, b:2})
+//순회하기
+for(let [name, value] of entries){}
+```
+- onAuthStateChanged
+    - 로그인 버튼 처음 눌렀을때
+    - 로그인 된 상태에서 다시 페이지 접속할때
+    - 로그아웃할때 실행된다.
+
+    [강의자료](https://github.com/fds7/fds-firebase-database/blob/master/index.html)
+    - [BEM](https://medium.com/witinweb/css-%EB%B0%A9%EB%B2%95%EB%A1%A0-1-bem-block-element-modifier-1c03034e65a1)
+        - 큰요소 둘러싸는 요소를 블럭이라 부르자.(block)
+        - 실제 타겟을 엘리먼트라고 부르자.(element)
+        - 요소에 상태를 나타낼때(modifier) .authed 등
+        - block__element--modifier
+        - 범용으로 쓰이는 유티릴스 클래스 (.hidden) - > u-hidden
+
+    - 피드백이 바로 오면 좋은 UI이다.
+    - 데이터가 중요하다고 생각하고 코딩하는 방식 (비관적(UI)업데이트 - pessimistic update)
+        - 프로그램이 편하다. 사용자가 답답해한다.
+        - 로딩 인디케이터(loading indicator)
+    - 화면부터 업데이트 해주는 방식 (낙관적 업데이트 - optimistic update)
+        - 사용자는 편하다. 화면업데이트 중요시한다
+
+
