@@ -3,7 +3,7 @@ layout: post
 title: HTTP
 date:   2018-01-08
 description:  # Add post description (optional)
-img: html.jpg
+img: http.jpg
 tags: [http,수업정리]
 author: wonchangkim # Add name author (optional)
 ---
